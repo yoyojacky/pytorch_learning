@@ -1,7 +1,7 @@
 # pytorch_learning —— PyTorch 学习手册（人工智能训练师备赛版）
 
 依据《2026 年上海市专项职业技能大赛"人工智能训练师"项目技术文件》的知识点编写的
-PyTorch 循序渐进入门教程。共 **6 个阶段、10 个章节**，每章包含：
+PyTorch 循序渐进入门教程。共 **7 个阶段、12 个章节及附加案例**，每章包含：
 
 - 一个可独立运行的小案例（`examples/` 下的 `.py` 脚本）
 - 对应的 Jupyter 练习笔记本（`notebooks/` 下的 `.ipynb`）
@@ -57,7 +57,31 @@ Windows 下将 `.venv/bin/` 换成 `.venv\Scripts\`。
 用浏览器打开，进入 `notebooks/` 目录，双击任一 `.ipynb` 开始练习。
 单击选中单元格，按 `Shift + Enter` 运行当前格。
 
-## 四、测试方法
+## 四、部署方法（Donkey Car 小车）
+
+`deploy/` 目录是自包含部署包，把训练好的驾驶模型装到树莓派小车上：
+
+```bash
+# 开发机上：把训练好的权重导出为 TorchScript 单文件（结构+权重打包）
+.venv/bin/python deploy/export_model.py
+
+# 拷上小车（把 donkeypi 换成小车的 IP 或主机名）
+scp -r deploy pi@donkeypi:~/mycar/
+
+# 小车上：安装轻量环境并自测
+python3 -m venv ~/pilot_env
+~/pilot_env/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu numpy
+cd ~/mycar/deploy && ~/pilot_env/bin/python car_pilot.py
+# 期望输出：模型加载成功！... 推理速度: xx 帧/秒
+```
+
+接入 Donkey Car 驾驶循环（`manage.py` 的 part 接线）、用真车数据重训练等完整步骤，
+见 `deploy/README.md`。
+
+> 注意：随仓库训练的模型用的是第 11 章的程序合成画面，仅供学习流程，
+> 不能直接开上真实赛道；需按 `deploy/README.md` 第六节用真车采集数据重训练。
+
+## 五、测试方法
 
 **1. 验证单个案例能正常运行：**
 
@@ -78,7 +102,7 @@ for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS 
 .venv/bin/jupyter nbconvert --to notebook --execute notebooks/01_tensor_basics.ipynb
 ```
 
-## 五、学习路线（6 阶段 10 章）
+## 六、学习路线（7 阶段 12 章 + 附加案例）
 
 ```
 阶段一  PyTorch 基础
@@ -97,12 +121,17 @@ for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS 
   第 9 章  预训练与微调          docs/09_预训练与微调.md
 阶段六  综合实战
   第 10 章 综合项目实战          docs/10_综合项目实战.md
+阶段七  进阶实战（真实项目架构）
+  第 11 章 DonkeyCar数据采集     docs/11_DonkeyCar数据采集.md
+  第 12 章 DonkeyCar模型训练     docs/12_DonkeyCar模型训练.md
+附加案例
+  牛顿冷却定律（Autograd 参数反演）  docs/bonus_牛顿冷却定律.md
 ```
 
 建议按章节顺序学习，每章约 30~60 分钟：先运行案例确认输出正确，
 再对照手册"逐行讲解"读透代码，最后完成章末"动手练习"。
 
-## 六、与赛项知识点的对应关系
+## 七、与赛项知识点的对应关系
 
 | 赛项技术文件要求 | 对应章节 |
 | --- | --- |
@@ -116,7 +145,7 @@ for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS 
 | 微调（Fine-tuning）技术：通过领域特定数据调整模型参数 | 第 9 章 |
 | 数据工程 → 训练 → 调优 → 评估报告 全流程 | 第 10 章 |
 
-## 七、项目结构
+## 八、项目结构
 
 ```
 pytorch_learning/
@@ -132,14 +161,22 @@ pytorch_learning/
 │   ├── 07_network_optimization.py Dropout / BatchNorm / 早停
 │   ├── 08_transformer.py          手写注意力 + nn.TransformerEncoder
 │   ├── 09_finetuning.py           冻结骨干微调 vs 全量微调
-│   └── 10_full_project.py         端到端设备故障预测综合项目
+│   ├── 10_full_project.py         端到端设备故障预测综合项目
+│   ├── 11_donkeycar_data.py       Donkey Car tub 格式数据采集（图片+转向+油门）
+│   ├── 12_donkeycar_train.py      TubDataset + CNN 行为克隆训练
+│   └── bonus_newton_cooling.py    附加案例：牛顿冷却定律参数反演
 ├── notebooks/                 ← 与案例对应的 Jupyter 练习笔记本
+├── deploy/                    ← Donkey Car 小车部署包（详见 deploy/README.md）
+│   ├── export_model.py            开发机：权重 → TorchScript 单文件
+│   ├── car_pilot.py               小车：加载模型 + 实时推理（含 part 接口）
+│   └── donkey_pilot_scripted.pt   导出的部署模型
 └── docs/                      ← 逐行讲解手册（Markdown）
-    ├── 01_张量基础.md  ……  10_综合项目实战.md
+    ├── 01_张量基础.md  ……  12_DonkeyCar模型训练.md
+    ├── bonus_牛顿冷却定律.md     ← 附加案例手册
     └── outputs/               ← 各案例的真实运行输出存档
 ```
 
-## 八、学习建议
+## 九、学习建议
 
 1. **先跑通再理解**：每章先把代码原样运行一次，确认输出与手册一致，再回头读讲解。
 2. **逐行过一遍**：手册的"逐行讲解"是核心，务必逐行对照代码读完。

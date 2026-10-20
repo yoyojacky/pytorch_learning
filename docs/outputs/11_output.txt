@@ -1,0 +1,2 @@
+采集完成：data/mytub/ 下共 360 条记录（360 张 jpg + 360 个 json）
+示例记录: {"cam/image_array": "1_cam-image_array_.jpg", "user/angle": 0.359, "user/throttle": 0.537}
