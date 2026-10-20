@@ -1,0 +1,11 @@
+MLP(
+  (layer1): Linear(in_features=2, out_features=16, bias=True)
+  (relu): ReLU()
+  (layer2): Linear(in_features=16, out_features=8, bias=True)
+  (layer3): Linear(in_features=8, out_features=2, bias=True)
+)
+第 10 轮 | 平均损失=0.1632 | 准确率=97.00%
+第 20 轮 | 平均损失=0.0835 | 准确率=97.80%
+第 30 轮 | 平均损失=0.0650 | 准确率=99.00%
+第 40 轮 | 平均损失=0.0523 | 准确率=98.80%
+第 50 轮 | 平均损失=0.0504 | 准确率=98.80%

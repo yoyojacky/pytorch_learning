@@ -1,0 +1,10 @@
+# Python 虚拟环境
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter 检查点
+.ipynb_checkpoints/
+
+# 训练生成的模型文件
+*.pt
