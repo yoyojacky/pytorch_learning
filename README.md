@@ -1,7 +1,7 @@
 # pytorch_learning —— PyTorch 学习手册（人工智能训练师备赛版）
 
 依据《2026 年上海市专项职业技能大赛"人工智能训练师"项目技术文件》的知识点编写的
-PyTorch 循序渐进入门教程。共 **7 个阶段、12 个章节及附加案例**，每章包含：
+PyTorch 循序渐进入门教程。共 **8 个阶段、13 个章节及附加案例**，每章包含：
 
 - 一个可独立运行的小案例（`examples/` 下的 `.py` 脚本）
 - 对应的 Jupyter 练习笔记本（`notebooks/` 下的 `.ipynb`）
@@ -90,7 +90,7 @@ cd ~/mycar/deploy && ~/pilot_env/bin/python car_pilot.py
 # 输出应与 docs/outputs/01_output.txt 中存档的结果一致
 ```
 
-**2. 一键回归测试全部 10 个案例：**
+**2. 一键回归测试全部 14 个案例：**
 
 ```bash
 for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS $f" || echo "FAIL $f"; done
@@ -124,6 +124,8 @@ for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS 
 阶段七  进阶实战（真实项目架构）
   第 11 章 DonkeyCar数据采集     docs/11_DonkeyCar数据采集.md
   第 12 章 DonkeyCar模型训练     docs/12_DonkeyCar模型训练.md
+阶段八  生活场景实战（回归任务）
+  第 13 章 二手房房价预测        docs/13_房价预测实战.md
 附加案例
   牛顿冷却定律（Autograd 参数反演）  docs/bonus_牛顿冷却定律.md
 ```
@@ -151,7 +153,7 @@ for f in examples/*.py; do .venv/bin/python "$f" > /dev/null 2>&1 && echo "PASS 
 pytorch_learning/
 ├── README.md                  ← 本文件
 ├── make_notebooks.py          ← 由 examples/ 重新生成 notebooks/ 的工具脚本
-├── examples/                  ← 10 个可独立运行的案例脚本
+├── examples/                  ← 14 个可独立运行的案例脚本
 │   ├── 01_tensor_basics.py        张量创建、运算、广播、变形、索引
 │   ├── 02_autograd.py             自动求导与手写梯度下降
 │   ├── 03_dataset_dataloader.py   数据清洗、标准化、Dataset/DataLoader
@@ -164,6 +166,7 @@ pytorch_learning/
 │   ├── 10_full_project.py         端到端设备故障预测综合项目
 │   ├── 11_donkeycar_data.py       Donkey Car tub 格式数据采集（图片+转向+油门）
 │   ├── 12_donkeycar_train.py      TubDataset + CNN 行为克隆训练
+│   ├── 13_house_price.py          二手房房价预测（回归任务端到端实战）
 │   └── bonus_newton_cooling.py    附加案例：牛顿冷却定律参数反演
 ├── notebooks/                 ← 与案例对应的 Jupyter 练习笔记本
 ├── deploy/                    ← Donkey Car 小车部署包（详见 deploy/README.md）
@@ -171,7 +174,7 @@ pytorch_learning/
 │   ├── car_pilot.py               小车：加载模型 + 实时推理（含 part 接口）
 │   └── donkey_pilot_scripted.pt   导出的部署模型
 └── docs/                      ← 逐行讲解手册（Markdown）
-    ├── 01_张量基础.md  ……  12_DonkeyCar模型训练.md
+    ├── 01_张量基础.md  ……  13_房价预测实战.md
     ├── bonus_牛顿冷却定律.md     ← 附加案例手册
     └── outputs/               ← 各案例的真实运行输出存档
 ```
